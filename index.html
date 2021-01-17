@@ -59,14 +59,14 @@
     
 var layer = new L.StamenTileLayer("toner");    
 var map = new L.Map("map", {
-    center: new L.LatLng(51.9, 7.9),
+    center: new L.LatLng(38.873, -77.4),
     zoom: 9
 });
 map.addLayer(layer);
 
 
      //Fetch some data from a GeoJSON file
-    $.getJSON("DC2021.json", function(json) {
+    $.getJSON("DC2021.json?v=2", function(json) {
 
       var testlayer = L.geoJson(json);
       var sliderControl = L.control.sliderControl({
