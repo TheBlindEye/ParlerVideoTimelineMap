@@ -60,7 +60,7 @@
 var layer = new L.StamenTileLayer("toner");    
 var map = new L.Map("map", {
     center: new L.LatLng(38.873, -77.4),
-    zoom: 9
+    zoom: 16
 });
 map.addLayer(layer);
 
@@ -72,7 +72,8 @@ map.addLayer(layer);
       var sliderControl = L.control.sliderControl({
         position: "topright",
         layer: testlayer,
-        range: true
+        range: true,
+        isEpoch: true
       });
 
       //Make sure to add the slider to the map ;-)
