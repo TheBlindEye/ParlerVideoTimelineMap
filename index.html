@@ -29,11 +29,15 @@
 	<div class="column"><div class="content"><h1>Parler Video Timeline Map: DC</h1></div></div>
 </div>
 <div class="columns" id="toptext">
-	<div class="column"><div class="content"><p>Move the timeline sliders to view videos uploaded to Parler in the first few days of 2021.</p><p>Some videos may not load directly. You may need to download them and view them on your computer</p><p>Created by <a href="https://twitter.com/ddne">@ddne</a> | Files hosted by <a href="https://twitter.com/carstensenpol">@carstensenpol</a> | Made possible by MANY others</p></div></div>
+	<div class="column"><div class="content"><p>Move the timeline sliders to view videos uploaded to Parler in the first few days of 2021.<br>Some videos may not load directly. You may need to download them and view them on your computer</p><p>Created by <a href="https://twitter.com/ddne">@ddne</a> | Files hosted by <a href="https://twitter.com/carstensenpol">@carstensenpol</a> | Made possible by MANY others</p></div>
 </div>
-
 </div>
-
+<div class="columns" id="announcement">
+	<div class="column">
+    <p>The times displayed are taken from the video metadata and only converted to Washington DC local time. Some times are obviously incorrect. We are working directly with the metadata on the original video file and have no concrete way of correcting the incorrect times.</p>
+</div>
+  </div>
+</div>
 <div class="container is-fluid">
 <div id="mapVid" class="columns">
 <div class="column"><div id="mapid"></div></div>
@@ -184,8 +188,8 @@ var dateValLower = document.getElementById('date-val-lower');
 var dateValUpper = document.getElementById('date-val-upper');
 
 slider.noUiSlider.on('update', function (values) {
-	var lower = new Date((values[0]-21600)*1000);
-	var upper = new Date((values[1]-21600)*1000);
+	var lower = new Date((values[0])*1000);
+	var upper = new Date((values[1])*1000);
 	var options = {
   		year: 'numeric', month: '2-digit', day: '2-digit',
   		hour: 'numeric', minute: 'numeric', second: 'numeric',
