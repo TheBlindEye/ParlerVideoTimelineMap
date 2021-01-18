@@ -25,6 +25,12 @@
 
 <div id="mapid" style="width: 900px; height: 800px;"></div>
 <script>
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.url) {
+        layer.bindPopup(feature.properties.url);
+    }
+}
 
 
 
@@ -34,10 +40,13 @@ var mymap = new L.Map("mapid", {
     zoom: 17
 });
 mymap.addLayer(layer);
-	
+var geoJ	
 $.getJSON("DC2021.json?v=3", function(json) {
-    L.geoJSON(json).addTo(mymap);
+    geoJ = json
+	L.geoJSON(geoJ).addTo(mymap);
       });
+	
+	
 	
 </script>
 
