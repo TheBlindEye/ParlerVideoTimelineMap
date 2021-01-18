@@ -5,14 +5,18 @@
 	<title>Parler Video Map: DC</title>
 
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
-
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+	<link href="style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <link href="nouislider.css" rel="stylesheet">
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script type="text/javascript" src="tile.stamen.js?v1.3.0"></script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+<script src="nouislider.js"></script>
+<script src="moment.min.js"></script>
 
 
 
@@ -20,33 +24,185 @@
 	
 </head>
 <body>
+	<div class="container is-fluid">
+<div class="columns" id="top">
+	<div class="column"><div class="content"><h1>Parler Video Timeline Map: DC</h1></div></div>
+</div>
+<div class="columns" id="toptext">
+	<div class="column"><div class="content"><p>Move the timeline sliders to view videos uploaded to Parler in the first few days of 2021.</p><p>Some videos may not load directly. You may need to download them and view them on your computer</p><p>Created by <a href="https://twitter.com/ddne">@ddne</a> | Files hosted by <a href="https://twitter.com/carstensenpol">@carstensenpol</a> | Made possible by MANY others</p></div></div>
+</div>
+
+</div>
+
+<div class="container is-fluid">
+<div id="mapVid" class="columns">
+<div class="column"><div id="mapid"></div></div>
+<div class="column"><div id="viewer">Use the timeline slider below to expand or narrow the scope. Click on dots for more info.<br>GREEN dots are for videos you can view. <br>BLUE dots are for videos we have yet to locate</div></div>
+</div>
+<div id="infoPanel" class="columns">
+	<div class="column">ID: <strong><span id="id"></span></strong><br>Date & Time: <strong><span id="datetime"></span></strong></div>
+	<div class="column">Latitude: <strong><span id="lat"></span></strong><br> Longitude: <strong><span id="long"></span></strong></div>
+	<div class="column">Duration: <strong><span id="dur"></span></strong><br> File size (MB): <strong><span id="size"></span></strong></div>
+</div>
+<div id="tommyPanel" class="columns">
+	<div class="column"><strong><span id="url"></span></strong></div>
+	<div class="column"><strong><span id="thanks"></span></strong></div>
+</div>
+<div class="columns" id="timeline">
+	<div class="column"><div id="slider"></div></div>
+</div>
+<div class="columns" id="dates">
+	<div class="column"><div class="content has-text-left"><span id="date-val-lower"></span></div></div>
+	<div class="column"><div class="content has-text-right"><span id="date-val-upper"></span></div></h3></div>
+</div>
+<br>
 
 
 
-<div id="mapid" style="width: 900px; height: 800px;"></div>
 <script>
+	var IconBl = L.icon({
+iconUrl: 'marker.bl.png',
+iconSize: [20, 20],
+iconAnchor: [8, 8]
+});
+		var IconGr = L.icon({
+iconUrl: 'marker.gr.png',
+iconSize: [20, 20],
+iconAnchor: [8, 8]
+});
+
+var viewer = document.getElementById('viewer');
+var id = document.getElementById('id');
+var lat = document.getElementById('lat');
+var long = document.getElementById('long');
+var dur = document.getElementById('dur');
+var size = document.getElementById('size');
+var datetime = document.getElementById('datetime');
+var url = document.getElementById('url');
+
 function onEachFeature(feature, layer) {
-    // does this feature have a property named popupContent?
+    
     if (feature.properties && feature.properties.url) {
-        layer.bindPopup(feature.properties.url);
+
+        if (layer instanceof L.Marker) {
+    layer.setIcon(IconGr)
+  }
+    } else {
+    	if (layer instanceof L.Marker) {
+    layer.setIcon(IconBl)
+  }
     }
+
+     layer.on('click', function (e) {
+      if (feature.properties) {
+      	if (feature.properties.url) {
+        var content = '<video class="video" controls><source src="'+feature.properties.url+'" type="video/mp4">unsupported browser</video>';
+        viewer.innerHTML = content;
+        content = 'URL: <a href="'+feature.properties.url+'" target="_blank">'+feature.properties.url+'</a>';
+        url.innerHTML = content;
+        content = 'Thank you to <a href="https://twitter.com/carstensenpol">@carstensenpol</a> for hosting the files';
+        thanks.innerHTML = content;
+    	}
+    	if (feature.properties.name) {
+        var content = feature.properties.name;
+        id.innerHTML = content;
+    	}
+    	if (feature.properties.Latitude) {
+        var content = feature.properties.Latitude;
+        lat.innerHTML = content;
+    	}
+    	if (feature.properties.Longitude) {
+        var content = feature.properties.Longitude;
+        long.innerHTML = content;
+    	}
+    	if (feature.properties.time_EST) {
+        var content = feature.properties.time_EST;
+        datetime.innerHTML = content;
+    	}
+    	if (feature.properties.SizeMB) {
+        var content = feature.properties.SizeMB;
+        size.innerHTML = content;
+    	}
+    	if (feature.properties.Length) {
+        var content = feature.properties.Length;
+        dur.innerHTML = content;
+    	}
+        
+        
+    }
+});
 }
 
-
+gjl = L.geoJSON()
+function loadPoints(geoJS) {
+    // does this feature have a property named popupContent?
+    gjl = L.geoJSON(geoJS, {
+	onEachFeature: onEachFeature,
+	filter: function(feature) {
+		curVals = slider.noUiSlider.get()
+        if (feature.properties.time > curVals[0] && feature.properties.time < curVals[1]){
+        	return true;
+        } else {
+        	return false;
+        } ;
+    }
+	}).addTo(mymap);
+    }
 
 var layer = new L.StamenTileLayer("toner");
 var mymap = new L.Map("mapid", {
-    center: new L.LatLng(38.88989, -77.009),
-    zoom: 17
+    center: new L.LatLng(38.892, -77.024),
+    zoom: 15
 });
 mymap.addLayer(layer);
-var geoJ	
-$.getJSON("DC2021.json?v=3", function(json) {
-    geoJ = json
-	L.geoJSON(geoJ, {
-	onEachFeature: onEachFeature
-	}).addTo(mymap);
+var geoJ
+var sMin
+var sMax	
+$.getJSON("DC2021.json", function(json) {
+    geoJ = json;
+    sMax = json.features[json.features.length - 1].properties.time+1;
+    sMin = json.features[0].properties.time-1;
+    Qtr = (sMax - sMin)/4;
+
+	
+	var slider = document.getElementById('slider');
+	noUiSlider.create(slider, {
+    	start: [sMin, sMin+Qtr],
+    	connect: true,
+    	range: {
+        	'min': sMin,
+        	'max': sMax
+    	}
+	});
+	slider.noUiSlider.on('set', function() {
+		gjl.clearLayers();
+	    loadPoints(geoJ);
+});
+
+
+var dateValLower = document.getElementById('date-val-lower');
+var dateValUpper = document.getElementById('date-val-upper');
+
+slider.noUiSlider.on('update', function (values) {
+	var lower = new Date((values[0]-21600)*1000);
+	var upper = new Date((values[1]-21600)*1000);
+	var options = {
+  		year: 'numeric', month: '2-digit', day: '2-digit',
+  		hour: 'numeric', minute: 'numeric', second: 'numeric',
+  		hour12: true,
+  		timeZone: 'America/New_York'
+  	};
+
+// → "12/19/2012, 19:00:00"
+    dateValLower.innerHTML = new Intl.DateTimeFormat('en-US', options).format(lower);
+    dateValUpper.innerHTML = new Intl.DateTimeFormat('en-US', options).format(upper);
+});
+
+
+	loadPoints(geoJ)
       });
+
+
 	
 	
 	

@@ -1,0 +1,28 @@
+#mapid {
+	height: 500px;
+}
+#infoPanel, #top, #toptext, #tommyPanel, #top h1 {
+	background-color: #535353;
+	color: #dddddd;
+}
+#mapVid {
+	background-color: #282828;
+}
+
+#infoPanel strong, #tommyPanel strong, #viewer {
+	color: #dddddd;
+}
+#timeline, #dates {
+	background-color: #6b6b6b;
+	color: #dddddd;
+	font-weight: bolder;
+	font-size: 1.5em;
+}
+
+.video {
+	max-height: 500px;
+}
+
+.noUi-target {
+    padding: 0 20px;
+}
