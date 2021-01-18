@@ -36,11 +36,7 @@ var mymap = new L.Map("mapid", {
 mymap.addLayer(layer);
 	
 $.getJSON("DC2021.json?v=3", function(json) {
-    L.geoJSON(json, {
-    filter: function(feature, layer) {
-        return true
-    }
-}).addTo(mymap);
+    L.geoJSON(json).addTo(mymap);
       });
 	
 </script>
