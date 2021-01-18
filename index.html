@@ -159,7 +159,10 @@ function loadPoints(geoJS) {
 	}).addTo(mymap);
     }
 
-var layer = new L.StamenTileLayer("toner");
+var layer = new L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}', {
+    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
+    tileSize: 256,
+});
 var mymap = new L.Map("mapid", {
     center: new L.LatLng(38.892, -77.024),
     zoom: 15
