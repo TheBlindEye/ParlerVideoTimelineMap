@@ -2,7 +2,7 @@
 <html>
 <head>
 	
-	<title>Parler Video Map: Washington DC 21</title>
+	<title>Parler Video Map: Washington DC</title>
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +43,9 @@ mymap.addLayer(layer);
 var geoJ	
 $.getJSON("DC2021.json?v=3", function(json) {
     geoJ = json
-	L.geoJSON(geoJ).addTo(mymap);
+	L.geoJSON(geoJ, {
+	onEachFeature: onEachFeature
+	}).addTo(mymap);
       });
 	
 	
