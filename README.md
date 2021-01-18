@@ -1,6 +1,6 @@
 # Parler Video Timeline Map
 
-##View the map [here](https://theblindeye.github.io/ParlerVideoTimelineMap/)##
+## View the map [here](https://theblindeye.github.io/ParlerVideoTimelineMap/) ##
 
 This is an interactive Map that allows you to select a defined date/time range to have an overview of videos uploaded to Parler with metadata stating it was created within that time period. markers can be clicked on for more information, or, when available, view the video. The videos are currently hosted by [@carstensenpol](https://twitter.com/carstensenpol)
 
