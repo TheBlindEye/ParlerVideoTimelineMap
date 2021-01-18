@@ -34,16 +34,14 @@ var mymap = new L.Map("mapid", {
     zoom: 17
 });
 mymap.addLayer(layer);
-var someFeatures
- $.getJSON("DC2021.json?v=3", function(json) {
-    someFeatures = json;
-      });
-
-L.geoJSON(someFeatures, {
+	
+$.getJSON("DC2021.json?v=3", function(json) {
+    L.geoJSON(json, {
     filter: function(feature, layer) {
         return true
     }
 }).addTo(mymap);
+      });
 	
 </script>
 
